@@ -1,14 +1,13 @@
 from flask_restful import Resource
-from ..modelos.modelos import db,Evento,TipoSolicitud, EstadoEvento, Numero_seguimiento
+from modelos.modelos import db, Evento, TipoSolicitud, EstadoEvento, Numero_seguimiento
 from datetime import datetime
-from ..mensajeria.utils import SNS
+from mensajeria.utils import SNS
 import json
 from flask import request
 
 
 class VistaClients(Resource):
     def post(self, vendedor_id):
-
         topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_clientes'
         # Crear el evento en la base de datos
         numero_seguimiento = Numero_seguimiento()
