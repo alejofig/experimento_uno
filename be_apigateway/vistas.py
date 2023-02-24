@@ -55,8 +55,7 @@ class VistaClients(Resource):
 
 class VistaPedidos(Resource):
     def post(self, vendedor_id):
-        # Enviar el mensaje a la lambda function de clientes
-
+        topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_clientes'
         # Crear el evento en la base de datos
         numero_seguimiento = Numero_seguimiento()
         db.session.add(numero_seguimiento)
@@ -78,8 +77,29 @@ class VistaPedidos(Resource):
         db.session.add(numero_seguimiento)
         db.session.commit()
 
-        return {'mensaje': "Se ha recibido el evento te notificaremos cuando se haya procesado",
-                "type": "pedidos"}
+        # Enviar el mensaje a la lambda function de clientes
+        message_id = SNS(
+            region_name='us-east-1').publish_message(topico, json.dumps(evento.mensaje))
+
+        if bool(message_id):
+            evento_enviado = Evento(
+                fecha=datetime.utcnow(),
+                mensaje={'vendedor_id': vendedor_id,
+                         'state': 'Evento enviado por mensaje'},
+                sns_message_id=message_id,
+                numero_seguimiento=numero_seguimiento.id,
+                tipo_evento=TipoSolicitud.PEDIDO,
+                estado_evento=EstadoEvento.ENVIADO
+            )
+            db.session.add(evento_enviado)
+            db.session.commit()
+
+            return {'mensaje': "Se ha recibido el evento te notificaremos cuando se haya procesado",
+                    "type": "pedidos"}
+
+        return {"mensaje": "No se ha podido enviar el evento", "type": "clients"}
+
+        r
 
 
 class VistaResponse(Resource):
