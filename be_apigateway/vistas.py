@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from ..modelos import db, Evento, TipoSolicitud, EstadoEvento, Numero_seguimiento
+from ..modelos.modelos import db,Evento,TipoSolicitud, EstadoEvento, Numero_seguimiento
 from datetime import datetime
 from ..mensajeria.utils import SNS
 import json
