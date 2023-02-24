@@ -1,0 +1,15 @@
+service: be-pedidos
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  ecr:
+    images:
+      be_image:
+        path: ./
+
+functions:
+  app:
+    image:
+      name: be_image
+    timeout: 30
