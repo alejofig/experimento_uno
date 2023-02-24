@@ -98,6 +98,7 @@ class VistaResponse(Resource):
             fecha=datetime.utcnow(),
             mensaje=request.json['data'],
             sns_message_id='_',
+            numero_seguimiento=numero_seguimiento.id,
             tipo_evento=evento_asociado.tipo_evento,
             estado_evento=EstadoEvento.COMPLETADO,
         )
