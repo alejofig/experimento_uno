@@ -13,7 +13,7 @@ class EstadoEvento(enum.Enum):
     COMPLETADO = 4
 
 
-class TipoEvento(enum.Enum):
+class TipoSolicitud(enum.Enum):
     CLIENTE = 1
     PEDIDO = 2
 
@@ -31,7 +31,7 @@ class Evento(db.Model):
         db.Integer, db.ForeignKey('numero_seguimiento_ag.id'))
     sns_message_id = db.Column(db.String)
     estado_evento = db.Column(db.Enum(EstadoEvento))
-    tipo_evento = db.Column(db.Enum(TipoEvento))
+    tipo_evento = db.Column(db.Enum(TipoSolicitud))
 
 
 class Numero_seguimiento(db.Model):

@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from ..modelos import db, Evento, TipoEvento, EstadoEvento, Numero_seguimiento
+from ..modelos import db, Evento, TipoSolicitud, EstadoEvento, Numero_seguimiento
 from datetime import datetime
 from ..mensajeria.utils import SNS
 import json
@@ -21,7 +21,7 @@ class VistaClients(Resource):
                      'numero_seguimiento': numero_seguimiento.id},
             sns_message_id='_',
             numero_seguimiento=numero_seguimiento.id,
-            tipo_evento=TipoEvento.CLIENTE,
+            tipo_evento=TipoSolicitud.CLIENTE,
             estado_evento=EstadoEvento.RECIBIDO
         )
         db.session.add(evento)
@@ -42,7 +42,7 @@ class VistaClients(Resource):
                          'state': 'Evento enviado por mensaje'},
                 sns_message_id=message_id,
                 numero_seguimiento=numero_seguimiento.id,
-                tipo_evento=TipoEvento.CLIENTE,
+                tipo_evento=TipoSolicitud.CLIENTE,
                 estado_evento=EstadoEvento.ENVIADO
             )
             db.session.add(evento_enviado)
@@ -69,7 +69,7 @@ class VistaPedidos(Resource):
                      'numero_seguimiento': numero_seguimiento.id},
             sns_message_id='_',
             numero_seguimiento=numero_seguimiento.id,
-            tipo_evento=TipoEvento.PEDIDO,
+            tipo_evento=TipoSolicitud.PEDIDO,
             estado_evento=EstadoEvento.RECIBIDO
         )
         db.session.add(evento)
