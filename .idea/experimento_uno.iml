@@ -3,8 +3,9 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/be_clients/env" />
+      <excludeFolder url="file://$MODULE_DIR$/be_pedidos/env" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (experimento_uno)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9 (experimento_uno) (2)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

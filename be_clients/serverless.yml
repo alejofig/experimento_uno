@@ -3,12 +3,13 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: python3.8
-  region: us-east-1
   ecr:
     images:
-      saveImage:
+      be_image:
         path: ./
+
 functions:
-  save:
-    image: 727881289392.dkr.ecr.us-east-1.amazonaws.com/lambda-be:latest
+  app:
+    image:
+      name: be_image
+    timeout: 30
