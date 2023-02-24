@@ -10,6 +10,7 @@ class EstadoEvento(enum.Enum):
     RECIBIDO = 1
     ERROR_AL_PROCESAR = 2
     ENVIADO = 3
+    COMPLETADO = 4
 
 
 class TipoEvento(enum.Enum):
