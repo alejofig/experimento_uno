@@ -10,5 +10,5 @@ provider:
       saveImage:
         path: ./
 functions:
-  hello:
-    handler: app.lambda_handler
+  save:
+    image: 727881289392.dkr.ecr.us-east-1.amazonaws.com/lambda-be:latest

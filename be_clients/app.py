@@ -6,7 +6,7 @@ from src.modelos.modelos import TipoEvento, create_event
 
 
 def create_event_and_return_message_id(message, event_type, sns_message_id):
-    create_event({
+    create_event(**{
         "mensaje": message,
         "numero_seguimiento": message["numero_seguimiento"],
         "sns_message_id": sns_message_id,
@@ -14,7 +14,8 @@ def create_event_and_return_message_id(message, event_type, sns_message_id):
     })
 
 
-def lambda_handler(event):
+def handler(event, context):
+    print(event)
     message = json.loads(event['Records'][0]['Sns']['Message'])
 
     create_event_and_return_message_id(
@@ -23,15 +24,9 @@ def lambda_handler(event):
 
     clientes_vendedor = DarCliente().dar_clientes_vendedor(message["vendedor_id"])
     sns_queue = SNS("us-east-1")
-    message_id = sns_queue.publish_message("response", clientes_vendedor)
-
+    message_to_send = {"numero_seguimiento": message["numero_seguimiento"],
+                                  "data": clientes_vendedor}
+    message_id = sns_queue.publish_message("arn:aws:sns:us-east-1:727881289392:response", json.dumps(message_to_send))
     create_event_and_return_message_id(
-        clientes_vendedor, TipoEvento.RECEIVE_MESSAGE, message_id)
-
+        message_to_send, TipoEvento.ENVIADO, message_id)
     return {"message_id": message_id}
-
-
-if __name__ == "__main__":
-    Mock()
-    clientes_vendedor = DarCliente().dar_clientes_vendedor(vendedor_id=1)
-    print(clientes_vendedor)

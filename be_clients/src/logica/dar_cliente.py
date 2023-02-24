@@ -13,4 +13,3 @@ class DarCliente:
         clientes = [elem.as_dict() for elem in session.query(Cliente).filter(Cliente.vendedor == vendedor_id)]
         return clientes  
     
-DarCliente()
