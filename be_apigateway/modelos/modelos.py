@@ -22,17 +22,19 @@ class Evento(db.Model):
     def as_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
+    __tablename__ = 'evento_ag'
+
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.DateTime, default=datetime.utcnow)
     mensaje = db.Column(db.JSON)
     numero_seguimiento = db.Column(
-        db.Integer, db.ForeignKey('numero_seguimiento.id'))
+        db.Integer, db.ForeignKey('numero_seguimiento_ag.id'))
     sns_message_id = db.Column(db.String)
     estado_evento = db.Column(db.Enum(EstadoEvento))
     tipo_evento = db.Column(db.Enum(TipoEvento))
 
 
 class Numero_seguimiento(db.Model):
+    __tablename__ = 'numero_seguimiento_ag'
     id = db.Column(db.Integer, primary_key=True)
-    evento = db.Column(db.Integer, db.ForeignKey('evento.id'))
-    __table_args__ = (db.UniqueConstraint('evento', name='_evento_uc'),)
+    evento = db.Column(db.Integer, db.ForeignKey('evento_ag.id'))
