@@ -55,7 +55,7 @@ class VistaClients(Resource):
 
 class VistaPedidos(Resource):
     def post(self, vendedor_id):
-        topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_clientes'
+        topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_pedidos'
         # Crear el evento en la base de datos
         numero_seguimiento = Numero_seguimiento()
         db.session.add(numero_seguimiento)
