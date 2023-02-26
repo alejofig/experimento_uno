@@ -1,4 +1,4 @@
-service: be-clients
+service: be-pedidos
 frameworkVersion: '3'
 
 provider:
