@@ -4,7 +4,7 @@ import requests
 import random
 import time
 
-for i in range(50):
+for i in range(400):
     # numero aleatoerio entre 1 y 10
     random_client = random.randint(1, 10)
 
@@ -22,4 +22,4 @@ for i in range(50):
     # delay de 1 segundo
     time.sleep(1)
 
-    print(response.content)
+    print(f"Peticion numero:{i}, {response.content}")
