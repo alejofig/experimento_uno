@@ -17,6 +17,14 @@ class TipoSolicitud(enum.Enum):
     CLIENTE = 1
     PEDIDO = 2
 
+class Vendedor(db.Model):  
+
+    __tablename__ = "vendedor_ag"
+
+    id = db.Column(db.Integer, primary_key=True)
+    usuario = db.Column(db.String(50))
+    identificacion = db.Column(db.Integer, nullable=True)
+    contrasena = db.Column(db.String(50))
 
 class Evento(db.Model):
     def as_dict(self):
