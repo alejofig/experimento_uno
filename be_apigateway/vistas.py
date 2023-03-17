@@ -110,7 +110,7 @@ class VistaPedidos(Resource):
             fecha=datetime.utcnow(),
             mensaje={'vendedor_id': vendedor_id,
                      'pedido_id':request.json["pedido_id"],
-                     'nueva_direccion':request.json["nueva_direccion"],
+                     'nueva_direccion_entrega':request.json["nueva_direccion_entrega"],
                      'numero_seguimiento': numero_seguimiento.id},
             sns_message_id='_',
             numero_seguimiento=numero_seguimiento.id,

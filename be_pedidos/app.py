@@ -42,7 +42,6 @@ def handler(event, context):
     data = json.dumps(message_to_send)
     headers = {"Content-Type": "application/json"}
     response = requests.post( endpoint, headers=headers, data=data)
-    print(response.text)
     create_event_and_return_message_id(
         message_to_send, TipoEvento.ENVIADO, 1)
     return {"message_id": 1}
