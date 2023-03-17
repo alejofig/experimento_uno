@@ -13,6 +13,7 @@ class Pedido(Base):  # To do
     id = Column(Integer, primary_key=True)
     nombre_producto = Column(String)
     vendedor = Column(Integer, ForeignKey('vendedor.id'))
+    direccion_entrega = Column(String)
 
 
 class TipoEvento(enum.Enum):

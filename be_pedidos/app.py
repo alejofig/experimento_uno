@@ -37,9 +37,9 @@ def handler(event, context):
         message, TipoEvento.RECIBIDO, event['Records'][0]['Sns']['MessageId'])
     #Mock()
 
-    pedidos_vendedor = DarPedido().dar_pedidos_vendedor(message["vendedor_id"])
+    pedido_modificado = DarPedido().modificar_direccion(message)
     message_to_send = {"numero_seguimiento": message["numero_seguimiento"],
-                       "data": pedidos_vendedor}
+                       "data": pedido_modificado}
     endpoint = "https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/v1/response"
     data = json.dumps(message_to_send)
     headers = {"Content-Type": "application/json"}

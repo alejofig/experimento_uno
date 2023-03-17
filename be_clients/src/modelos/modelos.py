@@ -2,8 +2,7 @@ from sqlalchemy import Column, Integer, Float, DateTime, ForeignKey, String, Boo
 from datetime import datetime
 import enum
 
-from src.modelos.declarative_base import Base, session
-
+from declarative_base import Base, session
 
 class Cliente(Base):  # To do
     def as_dict(self):
@@ -16,7 +15,7 @@ class Cliente(Base):  # To do
     zona = Column(String)
     estado_cuenta = Column(Boolean)
     vendedor = Column(Integer, ForeignKey('vendedor.id'))
-    foto_visita = Column(String)
+    foto_visita = Column(String,nullable=True)
 
 
 class TipoEvento(enum.Enum):

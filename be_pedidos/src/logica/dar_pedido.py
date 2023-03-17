@@ -12,4 +12,11 @@ class DarPedido:
     def dar_pedidos_vendedor(self,vendedor_id: int):
         clientes = [elem.as_dict() for elem in session.query(Pedido).filter(Pedido.vendedor == vendedor_id)]
         return clientes  
-    
+    def modificar_direccion(self,message):
+        pedido = session.query(Pedido).filter(Pedido.vendedor == message["vendedor"],
+                                              Pedido.id == message["pedido_id"]).first()
+        if pedido:
+            pedido.direccion_entrega =message["direccion_entrega"]
+            session.add(pedido)
+            session.commit()
+        return pedido.as_dict()
