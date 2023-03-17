@@ -13,3 +13,5 @@ functions:
     image:
       name: be_image
     timeout: 30
+    environment:
+      API_KEY: T6QSkXHpA1C6cL3nJhtGdYRTMTXHF3H8GPH19qo0iYsbqss
