@@ -16,6 +16,7 @@ class Cliente(Base):  # To do
     zona = Column(String)
     estado_cuenta = Column(Boolean)
     vendedor = Column(Integer, ForeignKey('vendedor.id'))
+    foto_visita = Column(String)
 
 
 class TipoEvento(enum.Enum):
