@@ -109,6 +109,8 @@ class VistaPedidos(Resource):
         evento = Evento(
             fecha=datetime.utcnow(),
             mensaje={'vendedor_id': vendedor_id,
+                     'pedido_id':request.json["pedido_id"],
+                     'nueva_direccion':request.json["nueva_direccion"],
                      'numero_seguimiento': numero_seguimiento.id},
             sns_message_id='_',
             numero_seguimiento=numero_seguimiento.id,
@@ -142,9 +144,7 @@ class VistaPedidos(Resource):
             return {'mensaje': "Se ha recibido el evento te notificaremos cuando se haya procesado",
                     "type": "pedidos"}
 
-        return {"mensaje": "No se ha podido enviar el evento", "type": "clients"}
-
-        r
+        return {"mensaje": "No se ha podido enviar el evento", "type": "pedidos"}
 
 
 class VistaResponse(Resource):

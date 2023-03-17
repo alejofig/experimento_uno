@@ -5,6 +5,8 @@ from src.utils import SNS
 from src.modelos.modelos import TipoEvento, create_event
 import random
 import requests
+import os 
+
 def random_fail():
     numero_aleatorio = random.randint(0, 5)
     opciones = [False,False,False,False,False,True]
@@ -24,12 +26,8 @@ def handler(event, context):
     print(event)
     if "Records" in event:
         message = json.loads(event['Records'][0]['Sns']['Message'])
-        if random_fail():
-            raise ValueError("Server Error")
     else:
         message = event['body']
-        if random_fail():
-            return "Server Error"
         return {"message_id":1}
 
     
@@ -39,7 +37,7 @@ def handler(event, context):
 
     pedido_modificado = DarPedido().modificar_direccion(message)
     message_to_send = {"numero_seguimiento": message["numero_seguimiento"],
-                       "data": pedido_modificado}
+                       "data": pedido_modificado,"api_key":os.getenv("API_KEY")}
     endpoint = "https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/v1/response"
     data = json.dumps(message_to_send)
     headers = {"Content-Type": "application/json"}
