@@ -1,5 +1,5 @@
 from flask_restful import Api
-from vistas import VistaClients, VistaPedidos, VistaResponse, VistaLogIn,VistaSignIn
+from vistas import VistaClients, VistaPedidos, VistaResponse, VistaLogIn, VistaSignIn, VistaIdentificacion
 import serverless_wsgi
 from modelos.modelos import db
 from flask_jwt_extended import JWTManager
@@ -36,11 +36,12 @@ db.init_app(app)
 db.create_all()
 jwt = JWTManager(app)
 api = Api(app)
-api.add_resource(VistaClients, '/v1/clients/<int:vendedor_id>')
-api.add_resource(VistaPedidos, '/v1/pedidos/<int:vendedor_id>')
+api.add_resource(VistaClients, '/v1/clients')
+api.add_resource(VistaPedidos, '/v1/pedidos')
 api.add_resource(VistaResponse, '/v1/response')
 api.add_resource(VistaSignIn, '/signin')
 api.add_resource(VistaLogIn, '/login')
+api.add_resource(VistaIdentificacion, '/test')
 
 
 def handler(event, context):

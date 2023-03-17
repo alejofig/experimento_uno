@@ -5,13 +5,13 @@ from datetime import datetime
 from mensajeria.utils import SNS
 import json
 from flask import request
-from flask_jwt_extended import jwt_required, create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 import os
+
 
 def is_valid(api_key):
     if api_key == os.getenv("API_KEY"):
         return True
-
 
 
 class VistaLogIn(Resource):
@@ -20,13 +20,14 @@ class VistaLogIn(Resource):
         contrasena_encriptada = hashlib.md5(
             request.json["contrasena"].encode('utf-8')).hexdigest()
         usuario = Vendedor.query.filter(Vendedor.usuario == request.json["usuario"],
-                                       Vendedor.contrasena == contrasena_encriptada).first()
+                                        Vendedor.contrasena == contrasena_encriptada).first()
         db.session.commit()
         if usuario is None:
             return "El usuario no existe", 404
         else:
             token_de_acceso = create_access_token(identity=usuario.id)
             return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso, "id": usuario.id}
+
 
 class VistaSignIn(Resource):
 
@@ -45,10 +46,11 @@ class VistaSignIn(Resource):
         else:
             return "El usuario ya existe", 404
 
-class VistaClients(Resource):
 
+class VistaClients(Resource):
     @jwt_required()
-    def post(self, vendedor_id):
+    def post(self):
+        vendedor_id = get_jwt_identity()
         topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_clientes'
         # Crear el evento en la base de datos
         numero_seguimiento = Numero_seguimiento()
@@ -95,9 +97,9 @@ class VistaClients(Resource):
 
 
 class VistaPedidos(Resource):
-
     @jwt_required()
-    def post(self, vendedor_id):
+    def post(self):
+        vendedor_id = get_jwt_identity()
         topico = 'arn:aws:sns:us-east-1:727881289392:api_gateway_pedidos'
         # Crear el evento en la base de datos
         numero_seguimiento = Numero_seguimiento()
@@ -151,7 +153,7 @@ class VistaResponse(Resource):
             api_key = request.json.get("api_key")
         else:
             return {"message": "Please provide an API key"}, 400
-        
+
         if is_valid(api_key):
             # Recibir el mensaje de la lambda function de clientes
             numero_seguimiento_id = request.json['numero_seguimiento']
@@ -177,3 +179,11 @@ class VistaResponse(Resource):
             return {"mensaje": "Se ha recibido el evento correctamente desde el backend", "type": "response"}
         else:
             return {"message": "The provided API key is not valid"}, 403
+
+
+class VistaIdentificacion(Resource):
+    @jwt_required()
+    def get(self):
+        current_user_id = get_jwt_identity()
+        # recuperar la información del usuario de la base de datos utilizando su ID
+        return ({'user_id': current_user_id}), 200
