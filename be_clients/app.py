@@ -5,7 +5,7 @@ from src.utils import SNS
 from src.modelos.modelos import TipoEvento, create_event
 import requests
 import random
-
+import os
 
 def random_fail():
     numero_aleatorio = random.randint(0, 5)
@@ -40,7 +40,7 @@ def handler(event, context):
     clientes_vendedor = DarCliente().dar_clientes_vendedor(message["vendedor_id"])
     sns_queue = SNS("us-east-1")
     message_to_send = {"numero_seguimiento": message["numero_seguimiento"],
-                       "data": clientes_vendedor}
+                       "data": clientes_vendedor,"api_key":os.getenv("API_KEY")}
     endpoint = "https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/v1/response"
     data = json.dumps(message_to_send)
     headers = {"Content-Type": "application/json"}
