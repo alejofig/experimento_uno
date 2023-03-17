@@ -1,0 +1,51 @@
+'''para correr el experimento: en una terminal meterse a la carpeta de apigateway darle flask run
+en otra terminal en la carpeta del proyecto correr el comando python experimentoFotoCliente.py'''
+
+import requests
+import random
+import csv
+
+
+# Definimos la URL para hacer el login
+login_url = "https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/login"
+
+# Datos de prueba para el login
+usuario = "miusuario"
+clave = "mipassword"
+
+# Datos de las URL aleatorias a las que haremos solicitudes
+urls = ["https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/v1/clients",
+        "https://n3dox8jtg5.execute-api.us-east-1.amazonaws.com/dev/v1/pedidos"]
+
+# Abrimos el archivo csv para guardar los registros
+with open('registros.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(["URL", "Autorización", "Respuesta"])
+
+    # Hacemos el login
+    response = requests.post(login_url, data={'usuario': usuario, 'clave': clave})
+    token = response.json()["token"]
+
+    # Hacemos 100 solicitudes aleatorias
+    for i in range(100):
+        # Generamos un valor aleatorio entre 0 y 1
+        valor_random = random.randint(0, 1)
+
+        # Seleccionamos una URL aleatoria de la lista
+        url = urls[random.randint(0, 1)]
+
+        # Si el valor aleatorio es 0, mostramos el mensaje de "No autorizado"
+        if valor_random == 0:
+            mensaje = "No cuenta con autorización para acceder a este recurso"
+        # Si el valor aleatorio es 1, mostramos el mensaje de "Autorizado"
+        else:
+            mensaje = "Si esta autorizado"
+
+        # Añadimos el token a los headers de la solicitud
+        headers = {'Authorization': f'Bearer {token}'}
+
+        # Realizamos la solicitud a la URL seleccionada
+        response = requests.post(url, headers=headers)
+
+        # Escribimos los datos en el archivo csv
+        writer.writerow([url, mensaje, response.content.decode('utf-8')])
